@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User; // Userモデルを使用
 use Illuminate\Support\Facades\Hash; // パスワードハッシュ化に使用
 use Illuminate\Support\Facades\Auth; // 認証に使用
+use App\Http\Requests\AuthRequest; // バリデーション用リクエストを使用
 
 class AuthController extends Controller
 {
@@ -20,7 +21,7 @@ class AuthController extends Controller
     /**
      * ユーザー登録処理
      */
-    public function register(Request $request)
+    public function register(AuthRequest $request)
     {
         // 必要なデータを抽出
         $userData = $request->only(['name', 'email', 'password']);
@@ -47,7 +48,7 @@ class AuthController extends Controller
     /**
      * ログイン処理
      */
-    public function login(Request $request)
+    public function login(AuthRequest $request)
     {
         // 必要なデータを抽出
         $credentials = $request->only(['email', 'password']);
