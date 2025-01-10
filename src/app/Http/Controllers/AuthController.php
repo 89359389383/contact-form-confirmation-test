@@ -23,17 +23,20 @@ class AuthController extends Controller
      */
     public function register(AuthRequest $request)
     {
-        // 必要なデータを抽出
+        // 入力データを検証 (AuthRequest を使用)
         $userData = $request->only(['name', 'email', 'password']);
 
         // ユーザーを作成
-        User::create([
+        $user = User::create([
             'name' => $userData['name'],
             'email' => $userData['email'],
             'password' => Hash::make($userData['password']), // パスワードをハッシュ化
         ]);
 
-        // ログインページへリダイレクト
+        // ログイン状態にする
+        Auth::login($user);
+
+        // ログインページまたは管理画面へリダイレクト
         return redirect()->route('auth.loginForm');
     }
 
