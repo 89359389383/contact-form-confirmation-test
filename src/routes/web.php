@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,11 @@ Route::get('/login', [AuthController::class, 'loginForm'])->name('auth.loginForm
 
 // ログインを処理するルート (フォーム送信先)
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+
+Route::post('/logout', function () {
+    Auth::logout(); // ユーザーをログアウト
+    return redirect('/login'); // ログインページにリダイレクト
+})->name('logout');
 
 // お問い合わせフォーム関連
 Route::get('/', [ContactController::class, 'index'])->name('contact.index'); // 入力ページ

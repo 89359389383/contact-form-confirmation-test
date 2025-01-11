@@ -186,7 +186,10 @@
     <div class="min-h-screen">
         <header>
             <h1>FashionablyLate</h1>
-            <button class="btn btn-outline">logout</button>
+            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                @csrf <!-- CSRFトークンを追加 -->
+                <button type="submit" class="btn btn-outline">logout</button>
+            </form>
         </header>
 
         <main>
