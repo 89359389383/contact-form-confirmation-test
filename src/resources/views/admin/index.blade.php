@@ -237,7 +237,14 @@
                 <a href="{{ route('admin.index') }}" class="btn btn-secondary">リセット</a>
             </form>
 
-            <button class="btn btn-export">エクスポート</button>
+            <form action="{{ route('admin.export') }}" method="get">
+                <input type="hidden" name="nameemail" value="{{ request('nameemail') }}">
+                <input type="hidden" name="gender" value="{{ request('gender') }}">
+                <input type="hidden" name="category_id" value="{{ request('category_id') }}">
+                <input type="hidden" name="date_from" value="{{ request('date_from') }}">
+                <input type="hidden" name="date_to" value="{{ request('date_to') }}">
+                <button type="submit" class="btn btn-export">エクスポート</button>
+            </form>
 
             <div class="table-container">
                 <table>
@@ -252,12 +259,13 @@
                     </thead>
                     <tbody>
                         @foreach ($contacts as $contact) <!-- contactsテーブルのデータを1件ずつループ処理 -->
-                        <tr>
-                            <!-- 名前（姓と名を結合して表示） -->
-                            <td>{{ $contact->first_name }} {{ $contact->last_name }}</td>
-
-                            <!-- 性別を表示 -->
-                            <td>
+                        <tr data-id="{{ $contact->id }}"
+                            data-phone="{{ $contact->tel }}"
+                            data-address="{{ $contact->address }}"
+                            data-building="{{ $contact->building }}"
+                            data-content="{{ $contact->detail }}">
+                            <td class="name">{{ $contact->first_name }} {{ $contact->last_name }}</td>
+                            <td class="gender">
                                 @if ($contact->gender == 1)
                                 男性
                                 @elseif ($contact->gender == 2)
@@ -268,17 +276,9 @@
                                 未設定
                                 @endif
                             </td>
-
-                            <!-- メールアドレスを表示 -->
-                            <td>{{ $contact->email }}</td>
-
-                            <!-- お問い合わせの種類を表示 -->
-                            <td>{{ $contact->category->content }}</td>
-
-                            <!-- 詳細ボタン -->
-                            <td>
-                                <button class="btn btn-outline">詳細</button>
-                            </td>
+                            <td class="email">{{ $contact->email }}</td>
+                            <td class="category">{{ $contact->category->content }}</td>
+                            <td><button class="btn btn-outline">詳細</button></td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -288,8 +288,107 @@
             <div class="pagination">
                 {{ $contacts->links() }}
             </div>
+
+            <!-- モーダルウィンドウ -->
+            <div id="detailModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h3>お問い合わせ詳細</h3>
+                    <p><strong>お名前:</strong> <span id="modalName"></span></p>
+                    <p><strong>性別:</strong> <span id="modalGender"></span></p>
+                    <p><strong>メールアドレス:</strong> <span id="modalEmail"></span></p>
+                    <p><strong>電話番号:</strong> <span id="modalPhone"></span></p>
+                    <p><strong>住所:</strong> <span id="modalAddress"></span></p>
+                    <p><strong>建物名:</strong> <span id="modalBuilding"></span></p>
+                    <p><strong>お問い合わせの種類:</strong> <span id="modalCategory"></span></p>
+                    <p><strong>お問い合わせ内容:</strong> <span id="modalContent"></span></p>
+                    <button id="deleteButton" class="btn btn-primary">削除</button>
+                </div>
+            </div>
+
+            <style>
+                .modal {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .modal-content {
+                    background: white;
+                    padding: 20px;
+                    border-radius: 8px;
+                    width: 400px;
+                    position: relative;
+                }
+
+                .close {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    cursor: pointer;
+                    font-size: 20px;
+                }
+            </style>
         </main>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // モーダルウィンドウを取得
+            const modal = document.getElementById('detailModal');
+            const closeButton = document.querySelector('.close');
+            const deleteButton = document.getElementById('deleteButton');
+
+            // 詳細ボタンをクリックしたときの処理
+            document.querySelectorAll('.btn-outline').forEach(button => {
+                button.addEventListener('click', function() {
+                    const row = this.closest('tr');
+                    modal.style.display = 'flex';
+                    // データをモーダルにセット
+                    document.getElementById('modalName').innerText = row.querySelector('.name').innerText;
+                    document.getElementById('modalGender').innerText = row.querySelector('.gender').innerText;
+                    document.getElementById('modalEmail').innerText = row.querySelector('.email').innerText;
+                    document.getElementById('modalPhone').innerText = row.dataset.phone || '未登録';
+                    document.getElementById('modalAddress').innerText = row.dataset.address || '未登録';
+                    document.getElementById('modalBuilding').innerText = row.dataset.building || '未登録';
+                    document.getElementById('modalCategory').innerText = row.querySelector('.category').innerText;
+                    document.getElementById('modalContent').innerText = row.dataset.content || '未登録';
+                    deleteButton.dataset.id = row.dataset.id; // 削除ボタンにIDをセット
+                });
+            });
+
+            // モーダルを閉じる
+            closeButton.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+
+            // 削除ボタンをクリックしたときの処理
+            deleteButton.addEventListener('click', function() {
+                const id = this.dataset.id;
+                if (confirm('本当に削除しますか？')) {
+                    fetch(`/admin/contacts/${id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        }
+                    }).then(response => {
+                        if (response.ok) {
+                            alert('削除が完了しました');
+                            location.reload(); // ページをリロード
+                        } else {
+                            alert('削除に失敗しました');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

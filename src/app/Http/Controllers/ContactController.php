@@ -54,4 +54,10 @@ class ContactController extends Controller
         // サンクスページを表示
         return view('contact.thanks');
     }
+
+    public function show($id)
+    {
+        $contact = Contact::with('category')->findOrFail($id); // カテゴリ情報も含める
+        return response()->json($contact);
+    }
 }

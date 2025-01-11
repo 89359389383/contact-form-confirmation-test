@@ -38,3 +38,6 @@ Route::post('/store', [ContactController::class, 'store'])->name('contact.store'
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index'); // 管理画面
 });
+Route::get('/admin/export', [AdminController::class, 'export'])->name('admin.export');
+Route::get('/admin/contacts/{id}', [AdminController::class, 'show'])->name('admin.show');
+Route::delete('/admin/contacts/{id}', [AdminController::class, 'destroy']);

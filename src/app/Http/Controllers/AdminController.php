@@ -68,4 +68,84 @@ class AdminController extends Controller
         // 検索結果やフォームに入力された条件をビュー（HTML画面）に渡します。
         return view('admin.index', compact('contacts', 'categories', 'nameemail', 'gender', 'category_id', 'date_from', 'date_to'));
     }
+
+    public function export(Request $request)
+    {
+        // 検索条件を取得
+        $nameemail = $request->input('nameemail');
+        $gender = $request->input('gender');
+        $category_id = $request->input('category_id');
+        $date_from = $request->input('date_from');
+        $date_to = $request->input('date_to');
+
+        // データベースのクエリを構築
+        $query = Contact::query();
+
+        if ($nameemail) {
+            $query->where(function ($q) use ($nameemail) {
+                $q->where('first_name', 'like', "%$nameemail%")
+                    ->orWhere('last_name', 'like', "%$nameemail%")
+                    ->orWhere('email', 'like', "%$nameemail%");
+            });
+        }
+
+        if ($gender) {
+            $query->where('gender', $gender);
+        }
+
+        if ($category_id) {
+            $query->where('category_id', $category_id);
+        }
+
+        if ($date_from) {
+            $query->whereDate('created_at', '>=', $date_from);
+        }
+
+        if ($date_to) {
+            $query->whereDate('created_at', '<=', $date_to);
+        }
+
+        // データを取得
+        $contacts = $query->get();
+
+        // CSVデータの作成
+        $csvData = [];
+        $csvData[] = ['お名前', '性別', 'メールアドレス', 'お問い合わせ種類', '作成日'];
+
+        foreach ($contacts as $contact) {
+            $csvData[] = [
+                $contact->first_name . ' ' . $contact->last_name,
+                $contact->gender == 1 ? '男性' : ($contact->gender == 2 ? '女性' : 'その他'),
+                $contact->email,
+                $contact->category->content,
+                $contact->created_at->format('Y-m-d H:i:s'),
+            ];
+        }
+
+        // CSVファイルを作成して返却（Shift-JISエンコーディングに変換）
+        $fileName = 'contacts_export_' . now()->format('Ymd_His') . '.csv';
+        $headers = [
+            'Content-Type' => 'text/csv; charset=Shift-JIS',
+            'Content-Disposition' => "attachment; filename=\"$fileName\"",
+        ];
+
+        $callback = function () use ($csvData) {
+            $handle = fopen('php://output', 'w');
+            // PHPでShift-JISに変換して出力
+            foreach ($csvData as $row) {
+                mb_convert_variables('SJIS-win', 'UTF-8', $row); // UTF-8からShift-JISに変換
+                fputcsv($handle, $row);
+            }
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    public function destroy($id)
+    {
+        $contact = Contact::findOrFail($id);
+        $contact->delete();
+        return response()->json(['message' => '削除が完了しました']);
+    }
 }
