@@ -10,14 +10,16 @@
 <body>
     <header class="header">
         <a href="/" class="logo">FashionablyLate</a>
-        <button onclick="location.href='{{ route('auth.registerForm') }}';" class="login-btn">register</button>
+        <div class="register__link">
+            <a class="register__button-submit" href="/register">register</a>
+        </div>
     </header>
 
     <div class="container">
-        <h1>Register</h1>
+        <h1>login</h1>
 
         <div class="form-card">
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route('auth.login') }}">
                 @csrf
                 <div class="form-group">
                     <label for="email">メールアドレス</label>

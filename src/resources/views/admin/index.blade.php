@@ -1,94 +1,260 @@
-<div class="min-h-screen bg-white">
-    <!-- Header -->
-    <header class="flex justify-between items-center px-8 py-4 border-b">
-        <h1 class="text-2xl text-[#8B7355]">FashionablyLate</h1>
-        <button class="px-4 py-1 text-[#8B7355] border border-[#8B7355] rounded hover:bg-[#8B7355] hover:text-white transition-colors">
-            logout
-        </button>
-    </header>
+<!DOCTYPE html>
+<html lang="ja">
 
-    <main class="max-w-7xl mx-auto px-4 py-8">
-        <h2 class="text-xl text-[#8B7355] mb-8">Admin</h2>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FashionablyLate - Admin</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        <!-- Search Filters -->
-        <div class="flex flex-wrap gap-4 mb-6">
-            <input
-                type="text"
-                placeholder="名前やメールアドレスを入力してください"
-                class="flex-1 min-w-[300px] p-2 border rounded" />
-            <select class="p-2 border rounded min-w-[120px]">
-                <option value="">性別</option>
-                <option value="male">男性</option>
-                <option value="female">女性</option>
-            </select>
-            <select class="p-2 border rounded min-w-[200px]">
-                <option value="">お問い合わせの種類</option>
-                <option value="exchange">商品の交換について</option>
-            </select>
-            <input
-                type="date"
-                class="p-2 border rounded" />
-            <button class="px-6 py-2 bg-[#8B7355] text-white rounded hover:bg-[#7A6548]">
-                検索
-            </button>
-            <button class="px-6 py-2 bg-[#D2B48C] text-white rounded hover:bg-[#C1A47B]">
-                リセット
-            </button>
-        </div>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: white;
+            color: #333;
+        }
 
-        <!-- Export Button -->
-        <button class="mb-4 px-4 py-1 bg-[#F5F5F5] rounded hover:bg-[#E8E8E8]">
-            エクスポート
-        </button>
+        /* Layout */
+        .min-h-screen {
+            min-height: 100vh;
+        }
 
-        <!-- Table -->
-        <div class="overflow-x-auto">
-            <table class="w-full border-collapse">
-                <thead>
-                    <tr class="bg-[#8B7355] text-white">
-                        <th class="p-3 text-left">お名前</th>
-                        <th class="p-3 text-left">性別</th>
-                        <th class="p-3 text-left">メールアドレス</th>
-                        <th class="p-3 text-left">お問い合わせの種類</th>
-                        <th class="p-3"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="border-b hover:bg-gray-50">
-                        <td class="p-3">山田 太郎</td>
-                        <td class="p-3">男性</td>
-                        <td class="p-3">test@example.com</td>
-                        <td class="p-3">商品の交換について</td>
-                        <td class="p-3">
-                            <button class="px-4 py-1 text-[#8B7355] border border-[#8B7355] rounded hover:bg-[#8B7355] hover:text-white transition-colors">
-                                詳細
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="border-b hover:bg-gray-50">
-                        <td class="p-3">山田 太郎</td>
-                        <td class="p-3">男性</td>
-                        <td class="p-3">test@example.com</td>
-                        <td class="p-3">商品の交換について</td>
-                        <td class="p-3">
-                            <button class="px-4 py-1 text-[#8B7355] border border-[#8B7355] rounded hover:bg-[#8B7355] hover:text-white transition-colors">
-                                詳細
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #E5E5E5;
+        }
 
-        <!-- Pagination -->
-        <div class="flex justify-center gap-2 mt-6">
-            <button class="p-2 border rounded hover:bg-gray-50">{'<'}< /button>
-                    <button class="p-2 border rounded bg-[#8B7355] text-white">1</button>
-                    <button class="p-2 border rounded hover:bg-gray-50">2</button>
-                    <button class="p-2 border rounded hover:bg-gray-50">3</button>
-                    <button class="p-2 border rounded hover:bg-gray-50">4</button>
-                    <button class="p-2 border rounded hover:bg-gray-50">5</button>
-                    <button class="p-2 border rounded hover:bg-gray-50">{'>'}</button>
-        </div>
-    </main>
-</div>
+        h1 {
+            color: #8B7355;
+            font-size: 1.5rem;
+        }
+
+        /* Main content */
+        main {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        h2 {
+            color: #8B7355;
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Search filters */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select {
+            padding: 0.5rem;
+            border: 1px solid #E5E5E5;
+            border-radius: 0.25rem;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        select {
+            min-width: 120px;
+        }
+
+        select.inquiry-type {
+            min-width: 200px;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.25rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary {
+            background: #8B7355;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #7A6548;
+        }
+
+        .btn-secondary {
+            background: #D2B48C;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #C1A47B;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #8B7355;
+            color: #8B7355;
+        }
+
+        .btn-outline:hover {
+            background: #8B7355;
+            color: white;
+        }
+
+        .btn-export {
+            background: #F5F5F5;
+            padding: 0.25rem 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn-export:hover {
+            background: #E8E8E8;
+        }
+
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #8B7355;
+            color: white;
+            text-align: left;
+            padding: 0.75rem;
+        }
+
+        td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #E5E5E5;
+        }
+
+        tr:hover {
+            background: #F9F9F9;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .pagination button {
+            padding: 0.5rem;
+            border: 1px solid #E5E5E5;
+            border-radius: 0.25rem;
+            min-width: 2.5rem;
+            cursor: pointer;
+        }
+
+        .pagination button:hover {
+            background: #F5F5F5;
+        }
+
+        .pagination button.active {
+            background: #8B7355;
+            color: white;
+            border-color: #8B7355;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="min-h-screen">
+        <header>
+            <h1>FashionablyLate</h1>
+            <button class="btn btn-outline">logout</button>
+        </header>
+
+        <main>
+            <h2>Admin</h2>
+
+            <div class="filters">
+                <input type="text" placeholder="名前やメールアドレスを入力してください">
+                <select>
+                    <option value="">性別</option>
+                    <option value="male">男性</option>
+                    <option value="female">女性</option>
+                </select>
+                <select class="inquiry-type">
+                    <option value="">お問い合わせの種類</option>
+                    <option value="exchange">商品の交換について</option>
+                </select>
+                <input type="date">
+                <button class="btn btn-primary">検索</button>
+                <button class="btn btn-secondary">リセット</button>
+            </div>
+
+            <button class="btn btn-export">エクスポート</button>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>お名前</th>
+                            <th>性別</th>
+                            <th>メールアドレス</th>
+                            <th>お問い合わせの種類</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>山田 太郎</td>
+                            <td>男性</td>
+                            <td>test@example.com</td>
+                            <td>商品の交換について</td>
+                            <td>
+                                <button class="btn btn-outline">詳細</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>山田 太郎</td>
+                            <td>男性</td>
+                            <td>test@example.com</td>
+                            <td>商品の交換について</td>
+                            <td>
+                                <button class="btn btn-outline">詳細</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <button>&lt;</button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>4</button>
+                <button>5</button>
+                <button>&gt;</button>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

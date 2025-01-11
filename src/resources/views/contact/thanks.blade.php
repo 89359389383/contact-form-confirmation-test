@@ -10,7 +10,7 @@
             お問い合わせありがとうございました
         </h1>
 
-        <a
+        <a>
             href="/"
             class="inline-block px-8 py-2 bg-brown text-white hover-bg-brown transition-colors duration-200 text-sm">
             HOME

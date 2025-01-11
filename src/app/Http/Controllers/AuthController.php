@@ -51,18 +51,19 @@ class AuthController extends Controller
     /**
      * ログイン処理
      */
-    public function login(AuthRequest $request)
+    public function login(Request $request)
     {
-        // 必要なデータを抽出
-        $credentials = $request->only(['email', 'password']);
+        /Log::info('ログイン処理開始');
 
-        // 認証情報を試す
+        $credentials = $request->only(['email', 'password']);
+        /Log::info('入力された認証情報', $credentials);
+
         if (Auth::attempt($credentials)) {
-            // 管理画面へリダイレクト
+            Log::info('ログイン成功：', ['user_id' => Auth::id()]);
             return redirect()->route('admin.index');
         }
 
-        // 認証失敗時は再度ログインフォームを表示
+        /Log::info('ログイン失敗');
         return back()->withErrors([
             'email' => 'メールアドレスまたはパスワードが正しくありません。',
         ])->withInput();

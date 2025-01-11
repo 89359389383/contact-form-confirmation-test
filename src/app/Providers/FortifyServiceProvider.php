@@ -10,8 +10,8 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log; // Logを正しくインポート
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
 use App\Models\User;
 
@@ -32,31 +32,32 @@ class FortifyServiceProvider extends ServiceProvider
     {
         // Fortify のアクションに必要なクラスを設定
         Fortify::createUsersUsing(CreateNewUser::class);
-        Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
-        Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
-        Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
+
+        Fortify::registerView(function () {
+            return view('auth.register');
+        });
+
+        Fortify::loginView(function () {
+            return view('auth.login');
+        });
+
+        RateLimiter::for('login', function (Request $request) {
+            $email = (string) $request->email;
+
+            return Limit::perMinute(10)->by($email . $request->ip());
+        });
 
         // カスタム認証ロジック
         Fortify::authenticateUsing(function (Request $request): ?User {
             $credentials = $request->only('email', 'password');
 
             if (Auth::attempt($credentials)) {
+                Log::info('ログイン成功：', ['user_id' => Auth::id()]);
                 return Auth::user();
             }
 
+            Log::info('ログイン失敗：', ['email' => $request->email]);
             return null;
-        });
-
-        // ログイン試行のレート制限
-        RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
-
-            return Limit::perMinute(5)->by($throttleKey);
-        });
-
-        // 二要素認証のレート制限
-        RateLimiter::for('two-factor', function (Request $request) {
-            return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
     }
 }

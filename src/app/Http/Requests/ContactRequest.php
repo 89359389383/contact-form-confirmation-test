@@ -28,9 +28,9 @@ class ContactRequest extends FormRequest
             'last_name' => 'required|string|max:255',
             'gender' => 'required|in:1,2,3',
             'email' => 'required|email',
-            'tel_part1' => 'required|digits_between:1,5|regex:/^[0-9]+$/',
-            'tel_part2' => 'required|digits_between:1,5|regex:/^[0-9]+$/',
-            'tel_part3' => 'required|digits_between:1,5|regex:/^[0-9]+$/',
+            'tel_part1' => 'required|digits_between:1,5',
+            'tel_part2' => 'required|digits_between:1,5',
+            'tel_part3' => 'required|digits_between:1,5',
             'address' => 'required|string|max:255',
             'detail' => 'required|string|max:120',
         ];

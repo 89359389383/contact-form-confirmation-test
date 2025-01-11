@@ -30,7 +30,7 @@
                     <div class="grid grid-cols-3">
                         <dt class="bg-[#C5B8B2] p-4 text-white">性別</dt>
                         <dd class="col-span-2 p-4">
-                            <input type="text" name="gender" value="{{ $contact['gender'] === 'male' ? '男性' : ($contact['gender'] === 'female' ? '女性' : 'その他') }}" readonly class="w-full">
+                            <input type="text" name="gender" value="{{ $contact['gender'] === 1 ? '男性' : ($contact['gender'] === 2 ? '女性' : 'その他') }}" readonly class="w-full">
                         </dd>
                     </div>
 
@@ -65,7 +65,7 @@
                     <div class="grid grid-cols-3">
                         <dt class="bg-[#C5B8B2] p-4 text-white">お問い合わせの種類</dt>
                         <dd class="col-span-2 p-4">
-                            <input type="text" name="category_id" value="{{ $contact['category_id'] }}" readonly class="w-full">
+                            <input type="text" name="category_id" value="{{ ['商品のお届けについて', '商品の交換について', '商品トラブル', 'ショップへのお問い合わせ', 'その他'][$contact['category_id'] - 1] }}" readonly class="w-full">
                         </dd>
                     </div>
 
