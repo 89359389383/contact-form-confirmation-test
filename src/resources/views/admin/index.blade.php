@@ -396,7 +396,6 @@
             <div id="detailModal" class="modal" style="display: none;">
                 <div class="modal-content">
                     <span class="close">&times;</span>
-                    <h3>お問い合わせ詳細</h3>
                     <p><strong>お名前:</strong> <span id="modalName"></span></p>
                     <p><strong>性別:</strong> <span id="modalGender"></span></p>
                     <p><strong>メールアドレス:</strong> <span id="modalEmail"></span></p>
@@ -405,7 +404,7 @@
                     <p><strong>建物名:</strong> <span id="modalBuilding"></span></p>
                     <p><strong>お問い合わせの種類:</strong> <span id="modalCategory"></span></p>
                     <p><strong>お問い合わせ内容:</strong> <span id="modalContent"></span></p>
-                    <button id="deleteButton" class="btn btn-primary">削除</button>
+                    <button id="deleteButton" class="deleteButton">削除</button>
                 </div>
             </div>
 
@@ -426,16 +425,52 @@
                     background: white;
                     padding: 20px;
                     border-radius: 8px;
-                    width: 400px;
+                    height: 64%;
+                    width: 50%;
                     position: relative;
                 }
 
                 .close {
                     position: absolute;
                     top: 10px;
+                    /* 上から10px */
                     right: 10px;
+                    /* 右から10px */
+                    width: 32px;
+                    /* 横幅を32px */
+                    height: 32px;
+                    /* 縦幅を32px（横幅と同じ値） */
                     cursor: pointer;
                     font-size: 20px;
+                    display: flex;
+                    /* Flexboxで中身を整列 */
+                    align-items: center;
+                    /* ボタン内で文字を縦方向中央揃え */
+                    justify-content: center;
+                    /* ボタン内で文字を横方向中央揃え */
+                    border-radius: 50%;
+                    /* ボタンの形を丸くします */
+                    border: 1px solid #ccc;
+                    /* 外枠を薄い灰色 (#ccc) で設定 */
+                }
+
+                .deleteButton {
+                    display: block;
+                    /* ボタンを1行まるごと使って表示する（横幅を自動的に広げる） */
+                    margin: 60px auto 0px auto;
+                    /* 上に60px、左右を自動で中央に、下に0pxの空白を作る */
+                    padding: 10px 20px;
+                    /* ボタン内の文字とボタンの端の間に、上下10px、左右20pxの余白を作る */
+                    background-color: #ff4d4d;
+                    /* ボタンの背景色を赤色にする */
+                    color: white;
+                    /* ボタンの文字色を白色にする */
+                    border: none;
+                    /* ボタンの外枠（枠線）をなくす */
+                    font-size: 16px;
+                    /* ボタンの文字の大きさを16pxにする */
+                    text-align: center;
+                    /* ボタン内の文字を真ん中にそろえる */
                 }
             </style>
         </main>
