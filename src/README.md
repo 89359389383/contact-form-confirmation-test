@@ -24,11 +24,11 @@
 -   Laravel: 8.83.8
 -   MySQL: 8.0.26
 
-## ER 図
-
-![ER Diagram](docs/お問い合わせフォームER図.png)
-
 ## URL
 
 -   開発環境: [http://localhost/](http://localhost/)
 -   phpMyAdmin: [http://localhost:8080/](http://localhost:8080/)
+
+## ER 図
+
+![ER Diagram](docs/お問い合わせフォームER図.png)
