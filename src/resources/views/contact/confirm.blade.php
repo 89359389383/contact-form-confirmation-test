@@ -6,89 +6,174 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact - FashionablyLate</title>
     <link rel="stylesheet" href="{{ asset('css/confirm/index.css') }}">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: sans-serif;
+            color: #666;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .site-title {
+            color: #a69485;
+            font-size: 24px;
+            font-weight: normal;
+            margin-bottom: 20px;
+        }
+
+        .page-title {
+            color: #a69485;
+            font-size: 20px;
+            font-weight: normal;
+            margin-bottom: 40px;
+        }
+
+        .form-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .form-table th {
+            width: 200px;
+            background-color: #b5a397;
+            color: white;
+            padding: 15px 20px;
+            text-align: left;
+            font-weight: normal;
+            border-bottom: 2px solid white;
+        }
+
+        .form-table td {
+            padding: 15px 20px;
+            background-color: #f8f8f8;
+            border-bottom: 2px solid white;
+        }
+
+        .button-group {
+            text-align: center;
+            margin-top: 40px;
+            display: flex;
+            /* 横並びに配置 */
+            justify-content: center;
+            /* コンテンツを中央揃え */
+            gap: 16px;
+            /* ボタン間のスペースを調整 */
+        }
+
+        .inline-form {
+            margin: 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 40px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .btn-submit {
+            background-color: #8c7b6e;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background-color: #7a6d64;
+        }
+
+        .btn-edit {
+            background-color: transparent;
+            color: #8c7b6e;
+            border: 1px solid #8c7b6e;
+        }
+
+        .btn-edit:hover {
+            background-color: #f8f8f8;
+        }
+    </style>
 </head>
 
-<div class="min-h-screen bg-white py-8 px-4">
-    <div class="max-w-3xl mx-auto space-y-8">
-        <header class="text-center space-y-4">
-            <h1 class="text-3xl font-light text-[#8B7E75]">FashionablyLate</h1>
-            <h2 class="text-2xl font-light text-[#8B7E75]">Confirm</h2>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="site-title">FashionablyLate</h1>
+            <h2 class="page-title">Confirm</h2>
         </header>
 
-        <div class="border border-[#D4C5BB] rounded-sm overflow-hidden">
+        <table class="form-table">
+            <tr>
+                <th>お名前</th>
+                <td>
+                    <input type="text" name="first_name" value="{{ $contact['first_name'] }}" readonly>
+                    <input type="text" name="last_name" value="{{ $contact['last_name'] }}" readonly>
+                </td>
+            </tr>
+            <tr>
+                <th>性別</th>
+                <td>
+                    <input type="text" name="gender" value="{{ $contact['gender'] === 1 ? '男性' : ($contact['gender'] === 2 ? '女性' : 'その他') }}" readonly>
+                </td>
+            </tr>
+            <tr>
+                <th>メールアドレス</th>
+                <td>
+                    <input type="email" name="email" value="{{ $contact['email'] }}" readonly>
+                </td>
+            </tr>
+            <tr>
+                <th>電話番号</th>
+                <td>
+                    <input type="text" name="tel" value="{{ $contact['tel'] }}" readonly>
+                </td>
+            </tr>
+            <tr>
+                <th>住所</th>
+                <td>
+                    <input type="text" name="address" value="{{ $contact['address'] }}" readonly>
+                </td>
+            </tr>
+            <tr>
+                <th>建物名</th>
+                <td>
+                    <input type="text" name="building" value="{{ $contact['building'] }}" readonly>
+                </td>
+            </tr>
+            <tr>
+                <th>お問い合わせの種類</th>
+                <td>
+                    <input type="text" name="category_id" value="{{ ['商品のお届けについて', '商品の交換について', '商品トラブル', 'ショップへのお問い合わせ', 'その他'][$contact['category_id'] - 1] }}" readonly>
+                </td>
+            </tr>
+            <tr>
+                <th>お問い合わせ内容</th>
+                <td>
+                    <textarea name="detail" readonly>{{ $contact['detail'] }}</textarea>
+                </td>
+            </tr>
+        </table>
+
+        <div class="button-group">
             <form action="{{ route('contact.store') }}" method="POST">
                 @csrf
-                <dl class="divide-y divide-[#D4C5BB]">
-                    <div class="grid grid-cols-3">
-                        <dt class="bg-[#C5B8B2] p-4 text-white">お名前</dt>
-                        <dd class="col-span-2 p-4">
-                            <input type="text" name="first_name" value="{{ $contact['first_name'] }}" readonly class="w-full">
-                            <input type="text" name="last_name" value="{{ $contact['last_name'] }}" readonly class="w-full">
-                        </dd>
-                    </div>
-
-                    <div class="grid grid-cols-3">
-                        <dt class="bg-[#C5B8B2] p-4 text-white">性別</dt>
-                        <dd class="col-span-2 p-4">
-                            <input type="text" name="gender" value="{{ $contact['gender'] === 1 ? '男性' : ($contact['gender'] === 2 ? '女性' : 'その他') }}" readonly class="w-full">
-                        </dd>
-                    </div>
-
-                    <div class="grid grid-cols-3">
-                        <dt class="bg-[#C5B8B2] p-4 text-white">メールアドレス</dt>
-                        <dd class="col-span-2 p-4">
-                            <input type="email" name="email" value="{{ $contact['email'] }}" readonly class="w-full">
-                        </dd>
-                    </div>
-
-                    <div class="grid grid-cols-3">
-                        <dt class="bg-[#C5B8B2] p-4 text-white">電話番号</dt>
-                        <dd class="col-span-2 p-4">
-                            <input type="text" name="tel" value="{{ $contact['tel'] }}" readonly class="w-full">
-                        </dd>
-                    </div>
-
-                    <div class="grid grid-cols-3">
-                        <dt class="bg-[#C5B8B2] p-4 text-white">住所</dt>
-                        <dd class="col-span-2 p-4">
-                            <input type="text" name="address" value="{{ $contact['address'] }}" readonly class="w-full">
-                        </dd>
-                    </div>
-
-                    <div class="grid grid-cols-3">
-                        <dt class="bg-[#C5B8B2] p-4 text-white">建物名</dt>
-                        <dd class="col-span-2 p-4">
-                            <input type="text" name="building" value="{{ $contact['building'] }}" readonly class="w-full">
-                        </dd>
-                    </div>
-
-                    <div class="grid grid-cols-3">
-                        <dt class="bg-[#C5B8B2] p-4 text-white">お問い合わせの種類</dt>
-                        <dd class="col-span-2 p-4">
-                            <input type="text" name="category_id" value="{{ ['商品のお届けについて', '商品の交換について', '商品トラブル', 'ショップへのお問い合わせ', 'その他'][$contact['category_id'] - 1] }}" readonly class="w-full">
-                        </dd>
-                    </div>
-
-                    <div class="grid grid-cols-3">
-                        <dt class="bg-[#C5B8B2] p-4 text-white">お問い合わせ内容</dt>
-                        <dd class="col-span-2 p-4">
-                            <textarea name="detail" readonly class="w-full">{{ $contact['detail'] }}</textarea>
-                        </dd>
-                    </div>
-                </dl>
-
-                <div class="flex justify-center gap-4 mt-6">
-                    <button type="submit" class="bg-[#8B7E75] text-white px-8 py-2 rounded hover:bg-[#7A6D64] transition-colors">
-                        送信
-                    </button>
-                </div>
+                <button type="submit" class="btn btn-submit">送信</button>
             </form>
-
-            <form action="{{ route('contact.index') }}" method="GET" class="flex justify-center gap-4 mt-4">
-                <button type="submit" class="bg-white text-[#8B7E75] px-8 py-2 rounded border border-[#8B7E75] hover:bg-gray-50 transition-colors">
-                    修正
-                </button>
+            <form action="{{ route('contact.index') }}" method="GET">
+                <button type="submit" class="btn btn-edit">修正</button>
             </form>
         </div>
     </div>
-</div>
+</body>
+
+</html>

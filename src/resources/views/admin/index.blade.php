@@ -155,11 +155,20 @@
         }
 
         /* Pagination */
+        .export-pagination-wrapper {
+            display: flex;
+            /* 子要素を横並びにする */
+            align-items: center;
+            /* 垂直方向を中央揃えにする */
+            justify-content: space-between;
+            /* ボタンとページネーションを左右に配置 */
+            margin-bottom: 1rem;
+            /* 下に適度な余白を追加 */
+        }
+
         .pagination {
             display: flex;
             justify-content: center;
-            gap: 0.5rem;
-            margin-top: 1.5rem;
         }
 
         .pagination button {
@@ -178,6 +187,55 @@
             background: #8B7355;
             color: white;
             border-color: #8B7355;
+        }
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .page-number,
+        .arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border: 1px solid #e5e5e5;
+            text-decoration: none;
+            color: #666;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .page-number:hover,
+        .arrow:hover {
+            background-color: #f5f5f5;
+        }
+
+        .page-number.active {
+            background-color: #b3a089;
+            color: white;
+            border-color: #b3a089;
+        }
+
+        .arrow {
+            color: #999;
+        }
+
+        .arrow.disabled {
+            pointer-events: none;
+            color: #ccc;
+        }
+
+        /* 4つのクラスにまとめて背景色を適用 */
+        .gender-select,
+        .category-select,
+        .date-from,
+        .date-to {
+            background: #F8F8F8;
+            /* 背景色を設定 */
         }
     </style>
 </head>
@@ -203,7 +261,7 @@
                     value="{{ request('nameemail') }}">
 
                 <!-- 性別を選択するためのドロップダウンメニュー -->
-                <select name="gender">
+                <select name="gender" class="filter-select gender-select">
                     <option value="">性別</option> <!-- 初期状態で空欄を表示 -->
                     <option value="">全て</option> <!-- 全てを選択すると性別の条件を無視 -->
                     <option value="1" {{ request('gender') == '1' ? 'selected' : '' }}>男性</option> <!-- 男性が選択された場合に保持 -->
@@ -212,8 +270,8 @@
                 </select>
 
                 <!-- お問い合わせの種類を選択するためのドロップダウンメニュー -->
-                <select name="category_id">
-                    <option value="">お問い合わせ種類</option> <!-- 初期状態で空欄を表示 -->
+                <select name="category_id" class="filter-select category-select">
+                    <option value="">お問い合わせの種類</option> <!-- 初期状態で空欄を表示 -->
                     @foreach ($categories as $category)
                     <!-- お問い合わせ種類の一覧をループで表示 -->
                     <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
@@ -223,14 +281,10 @@
                 </select>
 
                 <!-- 日付の検索範囲の開始日を入力するための日付選択欄 -->
-                <input type="date"
-                    name="date_from"
-                    value="{{ request('date_from') }}">
+                <input type="date" name="date_from" value="{{ request('date_from') }}" class="filter-date date-from">
 
                 <!-- 日付の検索範囲の終了日を入力するための日付選択欄 -->
-                <input type="date"
-                    name="date_to"
-                    value="{{ request('date_to') }}">
+                <input type="date" name="date_to" value="{{ request('date_to') }}" class="filter-date date-to">
 
                 <!-- 検索ボタン -->
                 <button type="submit"
@@ -246,7 +300,14 @@
                 <input type="hidden" name="category_id" value="{{ request('category_id') }}">
                 <input type="hidden" name="date_from" value="{{ request('date_from') }}">
                 <input type="hidden" name="date_to" value="{{ request('date_to') }}">
-                <button type="submit" class="btn btn-export">エクスポート</button>
+                <div class="export-pagination-wrapper">
+                    <form action="{{ route('admin.export') }}" method="get">
+                        <button type="submit" class="btn btn-export">エクスポート</button>
+                    </form>
+                    <div class="pagination">
+                        {{ $contacts->links('vendor.pagination.default') }}
+                    </div>
+                </div>
             </form>
 
             <div class="table-container">
@@ -286,10 +347,6 @@
                         @endforeach
                     </tbody>
                 </table>
-            </div>
-
-            <div class="pagination">
-                {{ $contacts->links() }}
             </div>
 
             <!-- モーダルウィンドウ -->
