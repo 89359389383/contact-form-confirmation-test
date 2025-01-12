@@ -154,14 +154,21 @@
 
         .header {
             text-align: center;
+            /* ヘッダー内の文字や要素を中央揃えにする */
             padding: 20px 0;
+            /* 上下に20ピクセルの余白を作る */
             border-bottom: 1px solid #eee;
+            /* ヘッダーの下に薄い線（ボーダー）を作る */
+            display: grid;
+            align-items: center;
+            background: white;
         }
 
         .header h1 {
             color: #987;
             font-weight: normal;
-            font-size: 28px;
+            font-size: 30px;
+            font-family: "Times New Roman", Times, serif;
         }
 
         .container {
@@ -170,12 +177,17 @@
             padding: 20px;
         }
 
+        .section-title {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 30px;
+        }
+
         h2 {
             color: #987;
             text-align: center;
             font-weight: normal;
             margin-bottom: 40px;
-            font-size: 24px;
+            font-size: 30px;
         }
 
         .form-group {
@@ -278,7 +290,7 @@
     </header>
 
     <div class="container">
-        <h2>Contact</h2>
+        <h2 class="section-title">Contact</h2>
         <form method="POST" action="{{ route('contact.confirm') }}">
             @csrf
             <div class="form-group">

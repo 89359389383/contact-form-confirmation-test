@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FashionablyLate - Register</title>
+    <title>FashionablyLate - Login</title>
     <style>
         * {
             margin: 0;
@@ -19,24 +19,30 @@
         }
 
         .header {
+            text-align: center;
+            /* ヘッダー内の文字や要素を中央揃えにする */
+            border-bottom: 1px solid #eee;
+            /* ヘッダーの下に薄い線（ボーダー）を作る */
             display: grid;
             grid-template-columns: 1fr auto 1fr;
             /* 3列のグリッドを作成 */
             align-items: center;
-            padding: 20px 40px;
+            background: white;
         }
 
         .logo {
+            font-family: "Times New Roman", Times, serif;
             color: #8b7355;
-            font-size: 24px;
+            font-size: 30px;
             text-decoration: none;
             font-weight: 300;
             grid-column: 2;
             /* 中央の列に配置 */
             text-align: center;
+            margin-top: 40px;
         }
 
-        .login-btn {
+        .register-btn {
             padding: 8px 24px;
             border: 1px solid #d4c3bc;
             border-radius: 4px;
@@ -48,6 +54,28 @@
             /* 右の列に配置 */
             justify-self: end;
             /* 右端に寄せる */
+            text-decoration: none;
+            /* テキストの下線を消す */
+        }
+
+        .register__button-submit {
+            font-family: "Times New Roman", Times, serif;
+            border: 1px solid rgb(150, 150, 150);
+            /* 枠線を少し濃い灰色に設定 */
+            background-color: rgb(240, 240, 240);
+            /* 背景色を枠線より薄い灰色に設定 */
+            color: #333;
+            /* 文字色を濃い灰色に設定 */
+            padding: 8px 24px;
+            /* 内側の余白を設定 */
+            font-size: 20px;
+            /* 文字サイズを設定 */
+            text-decoration: none;
+            /* テキストの下線を消す */
+        }
+
+        .page-title {
+            font-family: "Times New Roman", Times, serif;
         }
 
         /* 以下のスタイルは変更なし */
@@ -113,19 +141,23 @@
         .submit-btn:hover {
             background-color: #776244;
         }
+
+        .error-message {
+            color: red;
+        }
     </style>
 </head>
 
 <body>
     <header class="header">
-        <a href="/" class="logo">FashionablyLate</a>
+        <h1 class="logo">FashionablyLate</h1>
         <div class="register__link">
             <a class="register__button-submit" href="/register">register</a>
         </div>
     </header>
 
     <div class="container">
-        <h1>login</h1>
+        <h1 class="page-title">login</h1>
 
         <div class="form-card">
             <form method="POST" action="{{ route('auth.login') }}">

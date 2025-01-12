@@ -19,16 +19,43 @@
         }
 
         .header {
+            text-align: center;
+            /* ヘッダー内の文字や要素を中央揃えにする */
+            padding: 20px 0;
+            /* 上下に20ピクセルの余白を作る */
+            border-bottom: 1px solid #eee;
+            /* ヘッダーの下に薄い線（ボーダー）を作る */
             display: grid;
             grid-template-columns: 1fr auto 1fr;
             /* 3列のグリッドを作成 */
             align-items: center;
-            padding: 20px 40px;
+            background: white;
+        }
+
+        .register-btn {
+            padding: 8px 24px;
+            border: 1px solid #d4c3bc;
+            border-radius: 4px;
+            background: transparent;
+            color: #8b7355;
+            text-decoration: none;
+            font-size: 14px;
+            grid-column: 3;
+            /* 右の列に配置 */
+            justify-self: end;
+            /* 右端に寄せる */
+            text-decoration: none;
+            /* テキストの下線を消す */
+        }
+
+        .page-title {
+            font-family: "Times New Roman", Times, serif;
         }
 
         .logo {
+            font-family: "Times New Roman", Times, serif;
             color: #8b7355;
-            font-size: 24px;
+            font-size: 30px;
             text-decoration: none;
             font-weight: 300;
             grid-column: 2;
@@ -48,6 +75,24 @@
             /* 右の列に配置 */
             justify-self: end;
             /* 右端に寄せる */
+            text-decoration: none;
+            /* テキストの下線を消す */
+        }
+
+        .login__button-submit {
+            font-family: "Times New Roman", Times, serif;
+            border: 1px solid rgb(150, 150, 150);
+            /* 枠線を少し濃い灰色に設定 */
+            background-color: rgb(240, 240, 240);
+            /* 背景色を枠線より薄い灰色に設定 */
+            color: #333;
+            /* 文字色を濃い灰色に設定 */
+            padding: 8px 24px;
+            /* 内側の余白を設定 */
+            font-size: 20px;
+            /* 文字サイズを設定 */
+            text-decoration: none;
+            /* テキストの下線を消す */
         }
 
         /* 以下のスタイルは変更なし */
@@ -113,6 +158,10 @@
         .submit-btn:hover {
             background-color: #776244;
         }
+
+        .error-message {
+            color: red;
+        }
     </style>
 </head>
 
@@ -125,7 +174,7 @@
     </header>
 
     <div class="container">
-        <h1>Register</h1>
+        <h1 class="page-title">Register</h1>
 
         <div class="form-card">
             <form class="form" action="/register" method="post">

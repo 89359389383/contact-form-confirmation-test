@@ -9,7 +9,6 @@
     <style>
         body {
             margin: 0;
-            padding: 20px;
             font-family: sans-serif;
             color: #666;
         }
@@ -17,25 +16,34 @@
         .container {
             max-width: 800px;
             margin: 0 auto;
+            padding: 20px;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 40px;
+            /* ヘッダー内の文字や要素を中央揃えにする */
+            padding: 20px 0;
+            /* 上下に20ピクセルの余白を作る */
+            border-bottom: 1px solid #eee;
+            /* ヘッダーの下に薄い線（ボーダー）を作る */
+            display: grid;
+            align-items: center;
+            background: white;
         }
 
         .site-title {
-            color: #a69485;
-            font-size: 24px;
+            color: #987;
             font-weight: normal;
-            margin-bottom: 20px;
+            font-size: 30px;
+            font-family: "Times New Roman", Times, serif;
         }
 
         .page-title {
-            color: #a69485;
-            font-size: 20px;
+            color: #987;
             font-weight: normal;
-            margin-bottom: 40px;
+            font-size: 30px;
+            font-family: "Times New Roman", Times, serif;
+            text-align: center
         }
 
         .form-table {
@@ -106,12 +114,12 @@
 </head>
 
 <body>
-    <div class="container">
-        <header class="header">
-            <h1 class="site-title">FashionablyLate</h1>
-            <h2 class="page-title">Confirm</h2>
-        </header>
+    <header class="header">
+        <h1 class="site-title">FashionablyLate</h1>
+    </header>
 
+    <div class="container">
+        <h2 class="page-title">Confirm</h2>
         <table class="form-table">
             <tr>
                 <th>お名前</th>

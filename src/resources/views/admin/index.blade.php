@@ -24,18 +24,61 @@
             min-height: 100vh;
         }
 
-        /* Header */
-        header {
-            display: flex;
-            justify-content: space-between;
+        .header {
+            text-align: center;
+            /* ヘッダー内の文字や要素を中央揃えにする */
+            padding: 20px 0;
+            /* 上下に20ピクセルの余白を作る */
+            border-bottom: 1px solid #eee;
+            /* ヘッダーの下に薄い線（ボーダー）を作る */
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            /* 3列のグリッドを作成 */
             align-items: center;
-            padding: 1rem 2rem;
-            border-bottom: 1px solid #E5E5E5;
+            background: white;
+        }
+
+        .logo {
+            font-family: "Times New Roman", Times, serif;
+            color: #8b7355;
+            font-size: 30px;
+            text-decoration: none;
+            font-weight: 300;
+            grid-column: 2;
+            /* 中央の列に配置 */
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: "Times New Roman", Times, serif;
+            color: #8b7355;
+            font-size: 30px;
+            text-decoration: none;
+            font-weight: 300;
+            grid-column: 2;
+            /* 中央の列に配置 */
+            text-align: center;
         }
 
         h1 {
             color: #8B7355;
             font-size: 1.5rem;
+        }
+
+        .logout-btn-outline {
+            font-family: "Times New Roman", Times, serif;
+            border: 1px solid rgb(150, 150, 150);
+            /* 枠線を少し濃い灰色に設定 */
+            background-color: rgb(240, 240, 240);
+            /* 背景色を枠線より薄い灰色に設定 */
+            color: #333;
+            /* 文字色を濃い灰色に設定 */
+            padding: 8px 24px;
+            /* 内側の余白を設定 */
+            font-size: 20px;
+            /* 文字サイズを設定 */
+            text-decoration: none;
+            /* テキストの下線を消す */
         }
 
         /* Main content */
@@ -242,16 +285,16 @@
 
 <body>
     <div class="min-h-screen">
-        <header>
-            <h1>FashionablyLate</h1>
+        <header class="header">
+            <h1 class="logo">FashionablyLate</h1>
             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                 @csrf <!-- CSRFトークンを追加 -->
-                <button type="submit" class="btn btn-outline">logout</button>
+                <button type="submit" class="logout-btn-outline">logout</button>
             </form>
         </header>
 
         <main>
-            <h2>Admin</h2>
+            <h2 class="section-title">Admin</h2>
 
             <form class="filters" action="{{ route('admin.index') }}" method="get">
                 <!-- 名前やメールアドレスの入力欄 -->
