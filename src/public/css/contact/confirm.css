@@ -1,0 +1,97 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+    color: #666;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+    display: grid;
+    align-items: center;
+    background: white;
+}
+
+.site-title {
+    color: #987;
+    font-weight: normal;
+    font-size: 30px;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.page-title {
+    color: #987;
+    font-weight: normal;
+    font-size: 30px;
+    font-family: "Times New Roman", Times, serif;
+    text-align: center;
+}
+
+.form-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+.form-table th {
+    width: 200px;
+    background-color: #b5a397;
+    color: white;
+    padding: 15px 20px;
+    text-align: left;
+    font-weight: normal;
+    border-bottom: 2px solid white;
+}
+
+.form-table td {
+    padding: 15px 20px;
+    background-color: #f8f8f8;
+    border-bottom: 2px solid white;
+}
+
+.button-group {
+    text-align: center;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.inline-form {
+    margin: 0;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 40px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btn-submit {
+    background-color: #8c7b6e;
+    color: white;
+}
+
+.btn-submit:hover {
+    background-color: #7a6d64;
+}
+
+.btn-edit {
+    background-color: transparent;
+    color: #8c7b6e;
+    border: 1px solid #8c7b6e;
+}
+
+.btn-edit:hover {
+    background-color: #f8f8f8;
+}
