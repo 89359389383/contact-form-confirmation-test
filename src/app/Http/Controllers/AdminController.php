@@ -142,10 +142,18 @@ class AdminController extends Controller
         return response()->stream($callback, 200, $headers);
     }
 
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
+        // 指定されたIDのデータを取得
         $contact = Contact::findOrFail($id);
+
+        // データを削除
         $contact->delete();
-        return response()->json(['message' => '削除が完了しました']);
+
+        // 検索条件を取得
+        $queryParams = $request->only(['nameemail', 'gender', 'category_id', 'date_from', 'date_to']);
+
+        // 検索条件をリダイレクト先に付与して元のページに戻る
+        return redirect()->route('admin.index', $queryParams);
     }
 }

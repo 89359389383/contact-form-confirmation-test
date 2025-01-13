@@ -128,58 +128,64 @@
                     <p><strong>建物名:</strong> <span id="modalBuilding"></span></p>
                     <p><strong>お問い合わせの種類:</strong> <span id="modalCategory"></span></p>
                     <p><strong>お問い合わせ内容:</strong> <span id="modalContent"></span></p>
-                    <button id="deleteButton" class="deleteButton">削除</button>
+                    <!-- 削除フォーム -->
+                    <form action="{{ url('/admin/contacts/' . $contact->id) }}" method="POST" class="delete-form">
+                        @method('DELETE') <!-- HTTPメソッドの指定 -->
+                        @csrf <!-- CSRF保護 -->
+                        <input type="hidden" name="id" value="{{ $contact->id }}"> <!-- 必要なら追加 -->
+                        <button type="submit" class="deleteButton">削除</button>
+                    </form>
                 </div>
             </div>
-        </main>
-    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('detailModal');
-            const closeButton = document.querySelector('.close');
-            const deleteButton = document.getElementById('deleteButton');
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const modal = document.getElementById('detailModal');
+                    const closeButton = document.querySelector('.close');
+                    const deleteButton = document.getElementById('deleteButton');
 
-            document.querySelectorAll('.btn-outline').forEach(button => {
-                button.addEventListener('click', function() {
-                    const row = this.closest('tr');
-                    modal.style.display = 'flex';
-                    document.getElementById('modalName').innerText = row.querySelector('.name').innerText;
-                    document.getElementById('modalGender').innerText = row.querySelector('.gender').innerText;
-                    document.getElementById('modalEmail').innerText = row.querySelector('.email').innerText;
-                    document.getElementById('modalPhone').innerText = row.dataset.phone || '未登録';
-                    document.getElementById('modalAddress').innerText = row.dataset.address || '未登録';
-                    document.getElementById('modalBuilding').innerText = row.dataset.building || '未登録';
-                    document.getElementById('modalCategory').innerText = row.querySelector('.category').innerText;
-                    document.getElementById('modalContent').innerText = row.dataset.content || '未登録';
-                    deleteButton.dataset.id = row.dataset.id;
-                });
-            });
+                    document.querySelectorAll('.btn-outline').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const row = this.closest('tr');
+                            modal.style.display = 'flex';
+                            document.getElementById('modalName').innerText = row.querySelector('.name').innerText;
+                            document.getElementById('modalGender').innerText = row.querySelector('.gender').innerText;
+                            document.getElementById('modalEmail').innerText = row.querySelector('.email').innerText;
+                            document.getElementById('modalPhone').innerText = row.dataset.phone || '未登録';
+                            document.getElementById('modalAddress').innerText = row.dataset.address || '未登録';
+                            document.getElementById('modalBuilding').innerText = row.dataset.building || '未登録';
+                            document.getElementById('modalCategory').innerText = row.querySelector('.category').innerText;
+                            document.getElementById('modalContent').innerText = row.dataset.content || '未登録';
+                            deleteButton.dataset.id = row.dataset.id;
+                        });
+                    });
 
-            closeButton.addEventListener('click', function() {
-                modal.style.display = 'none';
-            });
+                    closeButton.addEventListener('click', function() {
+                        modal.style.display = 'none';
+                    });
 
-            deleteButton.addEventListener('click', function() {
-                const id = this.dataset.id;
-                if (confirm('本当に削除しますか？')) {
-                    fetch(`/admin/contacts/${id}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                        }
-                    }).then(response => {
-                        if (response.ok) {
-                            alert('削除が完了しました');
-                            location.reload();
-                        } else {
-                            alert('削除に失敗しました');
+                    deleteButton.addEventListener('click', function() {
+                        const id = this.dataset.id;
+                        if (confirm('本当に削除しますか？')) {
+                            fetch(`/admin/contacts/${id}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                                }
+                            }).then(response => {
+                                if (response.ok) {
+                                    alert('削除が完了しました');
+                                    location.reload();
+                                } else {
+                                    alert('削除に失敗しました');
+                                }
+                            });
                         }
                     });
-                }
-            });
-        });
-    </script>
+                });
+            </script>
+        </main>
+    </div>
 </body>
 
 </html>
