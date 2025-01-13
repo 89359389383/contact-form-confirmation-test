@@ -30,5 +30,5 @@
 -   phpMyAdmin: [http://localhost:8080/](http://localhost:8080/)
 
 ## ER 図
+![お問い合わせフォームER図](https://github.com/user-attachments/assets/c185c759-1041-4bbb-bce9-88853a21c63e)
 
-![ER Diagram](docs/お問い合わせフォームER図.png)
